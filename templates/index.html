@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NousGPT RAG Lab</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <header class="header panel">
+      <div>
+        <h1>NousGPT · RAG Lab</h1>
+        <p>Entrenamiento semántico con ChromaDB + Ollama (nomic embeddings) y buscador RAG funcional.</p>
+      </div>
+      <div class="status" id="statusBadge">Estado: comprobando...</div>
+    </header>
+
+    <section class="grid">
+      <article class="panel card">
+        <h2>Entrenamiento</h2>
+        <label>Colección
+          <input id="collection" value="{{ default_collection }}">
+        </label>
+        <label>Ruta del corpus
+          <input id="corpusDir" value="{{ default_corpus }}">
+        </label>
+        <div class="row">
+          <label>Chunk size
+            <input id="chunkSize" type="number" value="{{ default_chunk_size }}">
+          </label>
+          <label>Overlap
+            <input id="overlap" type="number" value="{{ default_overlap }}">
+          </label>
+        </div>
+        <label>Modelo embedding (Ollama)
+          <input id="embedModel" value="{{ default_embed_model }}">
+        </label>
+        <label class="check">
+          <input id="resetCollection" type="checkbox" checked>
+          Reiniciar colección antes de entrenar
+        </label>
+        <button id="trainBtn">Entrenar base vectorial</button>
+        <pre id="trainResult" class="result"></pre>
+      </article>
+
+      <article class="panel card">
+        <h2>Búsqueda semántica</h2>
+        <label>Consulta
+          <textarea id="searchQuery" rows="3" placeholder="Ej: transacciones ACID y rollback"></textarea>
+        </label>
+        <label>Top K
+          <input id="topK" type="number" value="{{ default_top_k }}" min="1" max="10">
+        </label>
+        <button id="searchBtn">Buscar contexto</button>
+        <div id="searchResults" class="list"></div>
+      </article>
+
+      <article class="panel card full">
+        <h2>Pregunta RAG (respuesta con fuentes)</h2>
+        <div class="row">
+          <label>Modelo chat (Ollama)
+            <input id="chatModel" value="{{ default_chat_model }}">
+          </label>
+        </div>
+        <label>Pregunta
+          <textarea id="askQuery" rows="4" placeholder="Ej: explícamelo con ejemplo de código JDBC o PDO"></textarea>
+        </label>
+        <button id="askBtn">Responder con RAG</button>
+        <article id="answerBox" class="answer hidden"></article>
+      </article>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

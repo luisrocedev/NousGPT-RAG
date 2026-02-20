@@ -18,17 +18,17 @@ Entrena un corpus documental, busca por similitud semantica y genera respuestas 
 
 ## Caracteristicas
 
-| Modulo | Descripcion |
-|---|---|
+| Modulo                      | Descripcion                                                                          |
+| --------------------------- | ------------------------------------------------------------------------------------ |
 | **Entrenamiento vectorial** | Carga `.md` / `.txt` / `.html`, fragmenta con overlap y genera embeddings con Ollama |
-| **ChromaDB persistente** | Almacena chunks y metadatos en disco (`PersistentClient`) |
-| **Busqueda semantica** | Recupera Top-K chunks por distancia coseno con score y fuente |
-| **Respuesta RAG** | Construye contexto, prompting controlado y genera respuesta con LLM local |
-| **API REST** | 6 endpoints JSON para entrenar, buscar, preguntar, diagnostico |
-| **Dark mode** | Toggle manual + deteccion automatica del sistema, persistencia en localStorage |
-| **Ollama status** | Verificacion en tiempo real del servidor Ollama y modelos instalados |
-| **Corpus info** | Listado de ficheros del corpus con extension y tamano |
-| **Markdown render** | Respuestas RAG con negritas, cursivas, bloques de codigo |
+| **ChromaDB persistente**    | Almacena chunks y metadatos en disco (`PersistentClient`)                            |
+| **Busqueda semantica**      | Recupera Top-K chunks por distancia coseno con score y fuente                        |
+| **Respuesta RAG**           | Construye contexto, prompting controlado y genera respuesta con LLM local            |
+| **API REST**                | 6 endpoints JSON para entrenar, buscar, preguntar, diagnostico                       |
+| **Dark mode**               | Toggle manual + deteccion automatica del sistema, persistencia en localStorage       |
+| **Ollama status**           | Verificacion en tiempo real del servidor Ollama y modelos instalados                 |
+| **Corpus info**             | Listado de ficheros del corpus con extension y tamano                                |
+| **Markdown render**         | Respuestas RAG con negritas, cursivas, bloques de codigo                             |
 
 ---
 
@@ -88,14 +88,14 @@ Abrir `http://127.0.0.1:5050`
 
 ## API Endpoints
 
-| Metodo | Ruta | Descripcion |
-|---|---|---|
-| `GET` | `/api/status` | Estado de la coleccion (nombre, chunks) |
-| `GET` | `/api/ollama` | Disponibilidad de Ollama y modelos instalados |
-| `GET` | `/api/corpus` | Listado de ficheros del corpus |
-| `POST` | `/api/train` | Entrenar coleccion vectorial |
-| `POST` | `/api/search` | Busqueda semantica por query |
-| `POST` | `/api/ask` | Respuesta RAG con contexto recuperado |
+| Metodo | Ruta          | Descripcion                                   |
+| ------ | ------------- | --------------------------------------------- |
+| `GET`  | `/api/status` | Estado de la coleccion (nombre, chunks)       |
+| `GET`  | `/api/ollama` | Disponibilidad de Ollama y modelos instalados |
+| `GET`  | `/api/corpus` | Listado de ficheros del corpus                |
+| `POST` | `/api/train`  | Entrenar coleccion vectorial                  |
+| `POST` | `/api/search` | Busqueda semantica por query                  |
+| `POST` | `/api/ask`    | Respuesta RAG con contexto recuperado         |
 
 ---
 
@@ -133,21 +133,21 @@ NousGPT-RAG/
 
 Editar `config.py` para ajustar:
 
-| Variable | Default | Descripcion |
-|---|---|---|
-| `OLLAMA_BASE_URL` | `http://localhost:11434` | URL del servidor Ollama |
-| `EMBED_MODEL` | `nomic-embed-text` | Modelo de embeddings |
-| `CHAT_MODEL` | `qwen2.5-coder:7b` | Modelo de chat LLM |
-| `DEFAULT_COLLECTION` | `nousgpt_rag` | Nombre de la coleccion ChromaDB |
-| `DEFAULT_TOP_K` | `4` | Numero de resultados por busqueda |
-| `DEFAULT_CHUNK_SIZE` | `700` | Tamano de fragmento (caracteres) |
-| `DEFAULT_CHUNK_OVERLAP` | `120` | Solapamiento entre fragmentos |
+| Variable                | Default                  | Descripcion                       |
+| ----------------------- | ------------------------ | --------------------------------- |
+| `OLLAMA_BASE_URL`       | `http://localhost:11434` | URL del servidor Ollama           |
+| `EMBED_MODEL`           | `nomic-embed-text`       | Modelo de embeddings              |
+| `CHAT_MODEL`            | `qwen2.5-coder:7b`       | Modelo de chat LLM                |
+| `DEFAULT_COLLECTION`    | `nousgpt_rag`            | Nombre de la coleccion ChromaDB   |
+| `DEFAULT_TOP_K`         | `4`                      | Numero de resultados por busqueda |
+| `DEFAULT_CHUNK_SIZE`    | `700`                    | Tamano de fragmento (caracteres)  |
+| `DEFAULT_CHUNK_OVERLAP` | `120`                    | Solapamiento entre fragmentos     |
 
 ---
 
 ## Autor
 
-**Luis Roce** -- [github.com/luisrocedev](https://github.com/luisrocedev)
+**Luis Rodriguez** -- [github.com/luisrocedev](https://github.com/luisrocedev)
 
 ---
 

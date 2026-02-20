@@ -13,7 +13,14 @@ from config import (
     DEFAULT_TOP_K,
     EMBED_MODEL,
 )
-from rag_engine import collection_status, rag_answer, semantic_search, train_collection
+from rag_engine import (
+    check_ollama,
+    collection_status,
+    list_corpus_files,
+    rag_answer,
+    semantic_search,
+    train_collection,
+)
 
 app = Flask(__name__)
 
@@ -36,6 +43,17 @@ def index():
 def api_status():
     collection_name = request.args.get("collection", DEFAULT_COLLECTION)
     return jsonify(collection_status(collection_name=collection_name))
+
+
+@app.get("/api/ollama")
+def api_ollama():
+    return jsonify(check_ollama())
+
+
+@app.get("/api/corpus")
+def api_corpus():
+    corpus_dir = request.args.get("corpus_dir", str(CORPUS_DIR))
+    return jsonify(list_corpus_files(corpus_dir))
 
 
 @app.post("/api/train")

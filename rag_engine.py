@@ -10,6 +10,7 @@ import chromadb
 import requests
 
 from config import (
+    CHAT_MODEL,
     CHROMA_DIR,
     CORPUS_DIR,
     DEFAULT_CHUNK_OVERLAP,
@@ -215,11 +216,39 @@ def semantic_search(
     return {"ok": True, "query": text, "results": items}
 
 
+def check_ollama() -> dict[str, Any]:
+    """Verifica disponibilidad de Ollama y modelos instalados."""
+    try:
+        resp = requests.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=5)
+        resp.raise_for_status()
+        models = [m["name"] for m in resp.json().get("models", [])]
+        return {"ok": True, "models": models}
+    except Exception as exc:
+        return {"ok": False, "error": f"Ollama no disponible: {exc}"}
+
+
+def list_corpus_files(corpus_dir: str | Path = CORPUS_DIR) -> dict[str, Any]:
+    """Lista archivos del corpus con tamaño."""
+    base = Path(corpus_dir)
+    if not base.exists():
+        return {"ok": False, "error": "Directorio de corpus no encontrado."}
+    allowed = {".txt", ".md", ".html", ".htm"}
+    files = []
+    for fp in sorted(base.rglob("*")):
+        if fp.is_file() and fp.suffix.lower() in allowed:
+            files.append({
+                "name": str(fp.relative_to(base)),
+                "size": fp.stat().st_size,
+                "ext": fp.suffix.lower(),
+            })
+    return {"ok": True, "corpus_dir": str(base), "files": files, "total": len(files)}
+
+
 def rag_answer(
     query: str,
     collection_name: str = DEFAULT_COLLECTION,
     embed_model: str = EMBED_MODEL,
-    chat_model: str = "qwen2.5-coder:7b",
+    chat_model: str = CHAT_MODEL,
     top_k: int = 4,
 ) -> dict[str, Any]:
     search = semantic_search(query, collection_name=collection_name, embed_model=embed_model, top_k=top_k)

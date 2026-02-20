@@ -3,20 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NousGPT RAG Lab - Sistema de entrenamiento semántico con ChromaDB + Ollama y buscador RAG funcional.">
   <title>NousGPT RAG Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <noscript><style>body::after{content:'Activa JavaScript para usar NousGPT RAG Lab.';display:block;padding:2rem;text-align:center;}</style></noscript>
 </head>
 <body>
   <main class="shell">
     <header class="header panel">
-      <div>
+      <div class="header-left">
         <h1>NousGPT · RAG Lab</h1>
-        <p>Entrenamiento semántico con ChromaDB + Ollama (nomic embeddings) y buscador RAG funcional.</p>
+        <p>Entrenamiento semántico con ChromaDB + Ollama y buscador RAG con fuentes.</p>
       </div>
-      <div class="status" id="statusBadge">Estado: comprobando...</div>
+      <div class="header-right">
+        <div class="status" id="statusBadge">Comprobando...</div>
+        <div class="status ollama-status" id="ollamaBadge">Ollama: ...</div>
+        <button id="darkModeBtn" class="icon-btn" title="Alternar modo oscuro">🌓</button>
+      </div>
     </header>
 
+    <!-- Corpus info -->
+    <section class="panel corpus-bar" id="corpusBar">
+      <strong>Corpus:</strong> <span id="corpusInfo">cargando...</span>
+    </section>
+
     <section class="grid">
+      <!-- Entrenamiento -->
       <article class="panel card">
         <h2>Entrenamiento</h2>
         <label>Colección
@@ -44,18 +58,20 @@
         <pre id="trainResult" class="result"></pre>
       </article>
 
+      <!-- Búsqueda semántica -->
       <article class="panel card">
         <h2>Búsqueda semántica</h2>
         <label>Consulta
           <textarea id="searchQuery" rows="3" placeholder="Ej: transacciones ACID y rollback"></textarea>
         </label>
         <label>Top K
-          <input id="topK" type="number" value="{{ default_top_k }}" min="1" max="10">
+          <input id="topK" type="number" value="{{ default_top_k }}" min="1" max="20">
         </label>
         <button id="searchBtn">Buscar contexto</button>
         <div id="searchResults" class="list"></div>
       </article>
 
+      <!-- Pregunta RAG -->
       <article class="panel card full">
         <h2>Pregunta RAG (respuesta con fuentes)</h2>
         <div class="row">
@@ -67,9 +83,14 @@
           <textarea id="askQuery" rows="4" placeholder="Ej: explícamelo con ejemplo de código JDBC o PDO"></textarea>
         </label>
         <button id="askBtn">Responder con RAG</button>
-        <article id="answerBox" class="answer hidden"></article>
+        <article id="answerBox" class="answer hidden">
+          <div id="answerContent" class="answer-content"></div>
+          <div id="answerSources" class="answer-sources"></div>
+        </article>
       </article>
     </section>
+
+    <footer class="footer">NousGPT RAG Lab · ChromaDB + Ollama · DAM2 2025/26</footer>
   </main>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
